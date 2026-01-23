@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        // Write a function to add two numbers together
+        // function add(a, b) {
+        //    return a + b;
+        // }
+        const add = (a, b) => a + b;
+
+        const addSeveral = (a, b, c, d = 0) => {
+            return a + b + c + d;
+        }
+
+        const addSeveralMore = (nums) => {
+            let sum = 0;
+            for (let i = 0; i < nums.length; i++) {
+                sum += nums[i];
+            }
+            return sum;
+        }
+
+        console.log(add(1, 2));
+        console.log(addSeveral(1, 2, 3, 4));
+
+        const nums = [1,2,3,4,5,6,7,8,9,10];
+        console.log(addSeveralMore(nums));
+
+        // const addEvens = (nums) => {
+        //     let sum = 0;
+        //     for (let i = 0; i < nums.length; i++) {
+        //         if (nums[i] % 2 === 0) {
+        //             sum += nums[i];
+        //         }
+        //     }
+        //     return sum;
+        // }
+
+        // const addOdds = (nums) => {
+        //     let sum = 0;
+        //     for (let i = 0; i < nums.length; i++) {
+        //         if (nums[i] % 2 === 1) {
+        //             sum += nums[i];
+        //         }
+        //     }
+        //     return sum;
+        // }
+
+        const sumOfEvens = addSeveralMore(nums.filter(n => n % 2 === 0));
+        const sumOfOdds = addSeveralMore(nums.filter(n => n % 2 === 1));
+    </script>
+
+</body>
+
+</html>
