@@ -5,25 +5,95 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Greeter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
   <style>
     * {
       font-size: 1.5em;
     }
+
+    button {
+      height: 50px;
+      width: 150px;
+      font-size: 14pt;
+    }
+
+    label {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1rem;
+    }
+
+    #input-firstname,
+    #input-lastname,
+    #output {
+      font-family: "Delius", cursive;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @media only screen and (min-width: 1024px) {
+      body {
+        background-color: red;
+        padding: 100px;
+      }
+    }
   </style>
+  <script>
+    // Javascript code goes here 
+    window.onload = () => {
+      // Imperatively give the paragraog a red text color, 
+      // and a yellow background color
+      const p = document.querySelector('#output');
+      p.style.color = 'red';
+      p.style.backgroundColor = 'yellow';
+
+      const helloBtn = document.querySelector('#btn-hello');
+      const goodbyeBtn = document.querySelector('#btn-goodbye');
+
+      helloBtn.addEventListener('click', () => greet('Hello'));
+      goodbyeBtn.addEventListener('click', () => greet('Goodbye'));
+
+      // Displays a greeting using the inputted first and last name
+      // Converts to uppercase if the 'shoutify' checkbox is checked
+      const greet = (greeting) => {
+        // Get first and last name of person from the <input> fields
+        const firstInputVal = getInputValue('#input-firstname', 'Peter');
+        const lastInputVal = getInputValue('#input-lastname', 'Parker');
+
+        // Get a reference to the checkbox's checked value
+        const shoutify = document.querySelector('#shoutify').checked;
+
+        // Draft out the message to be displayed in output
+        let message = `${greeting} ${firstInputVal} ${lastInputVal}`;
+
+        // Update HTML of #output <p> with message
+        // If the checkbox is checked, force message to uppercase
+        if (shoutify) {
+          message = message.toUpperCase();
+        }
+        const output = document.querySelector('#output');
+        output.innerHTML = message;
+      }
+
+      // Gets and returns a trimmed value from an input field
+      // Uses a default value if the input is empty
+      const getInputValue = (selector, defaultValue) => {
+        return document.querySelector(selector).value.trim() || defaultValue;
+      }
+    }
+  </script>
 </head>
 
 <body>
-  <button>Click Me!</button>
-  <input id="input-firstname" placeholder="Type in your name">
+  <button id="btn-hello">Say Hello</button>
+  <button id="btn-goodbye">Say Goodbye</button>
+  <input type="checkbox" id="shoutify" name="shoutify">
+  <label for="shoutify">Shoutify!</label>
+  <hr>
+  <input id="input-firstname" placeholder="First Name">
+  <input id="input-lastname" placeholder="Last Name">
   <p id="output">???</p>
-
-  <script>
-    // Javascript code goes here 
-    const button = document.querySelector('button');
-    
-    button.addEventListener('click', () => sayHello);
-  </script>
 </body>
 
 </html>
-
