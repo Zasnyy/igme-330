@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img>
+    
+    <script>
+        const url = 'https://dog.ceo/api/breeds/image/random';
+
+        console.log('before fetch');
+        fetch(url)
+          .then(response => {
+            return response.json();
+          })
+          .then(result => {
+            console.log(result); // {message, status}
+            const dogImgURL = result.message;
+
+            const img = document.querySelector('img');
+            img.src = dogImgURL;
+          });
+        
+        console.log('hi from the end');
+
+
+
+    </script>
+
+</body>
+</html>

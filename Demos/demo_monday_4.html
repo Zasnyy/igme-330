@@ -48,18 +48,26 @@
         hp: e.hp + randomN(1, 6)
       }
     });
-    debugger;
-    const leveledUp2 = enemies.map(e => ({
-      ...e, hp: e.hp + randomN(1, 6)
-    }));
 
     // Give me an array of enemies, but with a weapon
     // randomly selected
     //    { name: 'Steve', hp: 5, weapon: 'Staff of Yolo'}
     const weapons = [
-      'Staff of Yolo', 'Sword of Cutting', 'Mace of Bashing',
-      'Kitchen Knife of eldritch terror', 'fork'
-    ]
+      'Staff of Yolo', 
+      'Sword of Cutting', 
+      'Mace of Bashing',
+      'Kitchen Knife of eldritch terror', 
+      'fork'
+    ];
+    const enemiesWithWeapons = lowHp.map(e => {
+      return {
+        ...e,
+        weapon: weapons[randomN(0, weapons.length)]
+      }
+    });
+    
+
+
   </script>
 
 </body>
