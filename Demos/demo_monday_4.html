@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    const enemies = [
+      { name: 'Minion 1', hp: 10 },
+      { name: 'Jeffrey', hp: 6 },
+      { name: 'Debra', hp: 25 },
+      { name: 'Steve', hp: 8 },
+      { name: 'Shogtuatha', hp: 5 },
+    ];
+
+    // give me an array of low hp enemies
+    //   - that means hp <= 8
+    // let lowHp = [];
+    // for (let i = 0; i < enemies.length; i++) {
+    //   if (enemies[i].hp <= 8) {
+    //     lowHp.push(enemies[i]);
+    //   }
+    // }
+    const lowHp = enemies.filter(monster => monster.hp <= 8);
+    console.log(lowHp);
+    // Give me an array of the enemies, after they level up
+    //   - hp + random num 1 - 6
+    const randomN = (min, max) => Math.floor(min + Math.random() * (max - min));
+
+    // const enemies = [{ name: 'Minion 1', hp: 10 },...
+    // const leveledUp = [];
+    // for (let i = 0; i < enemies.length; i++) { 
+    //   // enemies[i].hp = enemies[i].hp + randomN(1, 6);
+    //   const newEnemy = {
+    //     ...enemies[i], 
+    //     hp: enemies[i].hp + randomN(1, 6)
+    //   };
+    //   leveledUp.push(newEnemy);
+    // }
+    // console.log(enemies);
+    const leveledUp = enemies.map(e => {
+      return {
+        ...e,
+        hp: e.hp + randomN(1, 6)
+      }
+    });
+    debugger;
+    const leveledUp2 = enemies.map(e => ({
+      ...e, hp: e.hp + randomN(1, 6)
+    }));
+
+    // Give me an array of enemies, but with a weapon
+    // randomly selected
+    //    { name: 'Steve', hp: 5, weapon: 'Staff of Yolo'}
+    const weapons = [
+      'Staff of Yolo', 'Sword of Cutting', 'Mace of Bashing',
+      'Kitchen Knife of eldritch terror', 'fork'
+    ]
+  </script>
+
+</body>
+
+</html>
