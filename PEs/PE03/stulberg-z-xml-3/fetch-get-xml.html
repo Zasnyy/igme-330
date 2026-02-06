@@ -51,6 +51,7 @@ const loadXMLFile = () => {
 
       let dogHTML = '';
       let catHTML = '';
+      let birdHTML = '';
 
       namelists.forEach(namelist => {
         // Get the category ID attribute
@@ -69,11 +70,13 @@ const loadXMLFile = () => {
           dogHTML = `<h3>Dog Names</h3>${listHTML}`;
         } else if (cid === 'catnames') {
           catHTML = `<h3>Cat Names</h3>${listHTML}`;
+        } else if (cid === 'birdnames') {
+          birdHTML = `<h3>Bird Names</h3>${listHTML}`;
         }
       });
 
       // Display the results
-      document.querySelector('#output').innerHTML = dogHTML + catHTML;
+      document.querySelector('#output').innerHTML = dogHTML + catHTML + birdHTML;
     })
     .catch(error => {
       console.error('Error:', error);

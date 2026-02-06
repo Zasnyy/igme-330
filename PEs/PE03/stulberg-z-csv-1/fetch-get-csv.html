@@ -48,8 +48,13 @@ const loadCSVFile = () => {
         parsedData[1].map(name => `<li>${name}</li>`).join("")
       }</ol>`;
 
+      // Create HTML for bird names
+      const birdHTML = `<h3>Bird Names</h3><ol>${
+        parsedData[2].map(name => `<li>${name}</li>`).join("")
+      }</ol>`;
+
       // Display the HTML on the page
-      document.querySelector('#output').innerHTML = dogHTML + catHTML;
+      document.querySelector('#output').innerHTML = dogHTML + catHTML + birdHTML;
     })
     .catch(error => {
       console.error('Error:', error);
