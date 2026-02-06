@@ -33,6 +33,22 @@ const loadCSVFile = () => {
       
       // TODO: You implement the parsing and display code here!
       // See step-by-step instructions below
+      const rows = text.split('\n');
+      console.log(rows);
+      const parsedData = rows.map(row => row.split(','));
+      console.log(parsedData);
+
+      // Create HTML for dog names
+      const dogHTML = `<h3>Dog Names</h3><ol>${
+        parsedData[0].map(name => `<li>${name}</li>`).join("")
+      }</ol>`;
+
+      const catHTML = `<h3>Cat Names</h3><ol>${
+        parsedData[1].map(name => `<li>${name}</li>`).join("")
+      }</ol>`;
+
+      // Display the HTML on the page
+      document.querySelector('#output').innerHTML = dogHTML + catHTML;
     })
     .catch(error => {
       console.error('Error:', error);
