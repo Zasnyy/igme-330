@@ -1,25 +1,39 @@
-"use strict";
+import { randomElement } from "./utils.js";
 
-const words1 = ["Acute", "Aft", "Anti-matter", "Bipolar", "Cargo", "Command", "Communication", "Computer", "Deuterium", "Dorsal", "Emergency", "Engineering", "Environmental", "Flight", "Fore", "Guidance", "Heat", "Impulse", "Increased", "Inertial", "Infinite", "Ionizing", "Isolinear", "Lateral", "Linear", "Matter", "Medical", "Navigational", "Optical", "Optimal", "Optional", "Personal", "Personnel", "Phased", "Reduced", "Science", "Ship's", "Shuttlecraft", "Structural", "Subspace", "Transporter", "Ventral"];
+let words1 = [];
+let words2 = [];
+let words3 = [];
 
-const words2 = ["Propulsion", "Dissipation", "Sensor", "Improbability", "Buffer", "Graviton", "Replicator", "Matter", "Anti-matter", "Organic", "Power", "Silicon", "Holographic", "Transient", "Integrity", "Plasma", "Fusion", "Control", "Access", "Auto", "Destruct", "Isolinear", "Transwarp", "Energy", "Medical", "Environmental", "Coil", "Impulse", "Warp", "Phaser", "Operating", "Photon", "Deflector", "Integrity", "Control", "Bridge", "Dampening", "Display", "Beam", "Quantum", "Baseline", "Input"];
+const loadBabble = () =>
+{
+    fetch('./data/babble-data.json')
+      .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Success:', data);
 
-const words3 = ["Chamber", "Interface", "Coil", "Polymer", "Biosphere", "Platform", "Thruster", "Deflector", "Replicator", "Tricorder", "Operation", "Array", "Matrix", "Grid", "Sensor", "Mode", "Panel", "Storage", "Conduit", "Pod", "Hatch", "Regulator", "Display", "Inverter", "Spectrum", "Generator", "Cloud", "Field", "Terminal", "Module", "Procedure", "System", "Diagnostic", "Device", "Beam", "Probe", "Bank", "Tie-In", "Facility", "Bay", "Indicator", "Cell"];
+        
+        ({
+            babble: {
+                first: words1,
+                second: words2,
+                third: words3
+            }
+        } = data);
 
-init();
+        init();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.querySelector('#output').innerHTML = `<p>Error loading file: ${error.message}</p>`;
+      });
+    };
 
-function init() {
-    generateTechno(1);
-    //document.querySelector("#myButton").onclick = generate;
-    document.querySelector("#myButton").addEventListener("click", () => generateTechno(1));
-    document.querySelector("#giveFive").addEventListener("click", () => generateTechno(5));
-}
-
-function randomElement(array) {
-    return array[Math.floor(Math.random() * array.length)];
-}
-
-function generateTechno(num) { 
+const generateTechno = (num) => { 
     //return randomElement(words1) + " " + randomElement(words2) + " " + randomElement(words3);
     let str = "";
     for (let i = 0; i < num; i++) {
@@ -27,3 +41,12 @@ function generateTechno(num) {
     }
     document.querySelector("#output").innerHTML = str;
 }
+
+const init = () => {
+    generateTechno(1);
+    //document.querySelector("#myButton").onclick = generate;
+    document.querySelector("#btn-gen-1").addEventListener("click", () => generateTechno(1));
+    document.querySelector("#btn-gen-5").addEventListener("click", () => generateTechno(5));
+}
+
+loadBabble();
