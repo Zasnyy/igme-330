@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        const getRandomBreedImages = async () => {
+            const allBreedsResponse = await fetch('https://dog.ceo/api/breeds/list/all');
+            const allBreedsResult = await allBreedsResponse.text();
+
+            const data = JSON.parse(allBreedsResult);
+            const breeds = data.message;
+
+            console.log(breeds);
+
+            const listOfBreeds = Object.keys(breeds);
+            const randomBreed = listOfBreeds[Math.floor(Math.random() * listOfBreeds.length)];
+
+            const randomResponse = await fetch(`https://dog.ceo/api/breed/${randomBreed}/images`);
+            const randomResult = await randomResponse.json();
+
+            const images = randomResult.message;
+            console.log(images);
+
+            return images;
+        }
+
+        fetch('https://dog.ceo/api/breeds/list/all')
+            .then(response => {
+                return response.text();
+            })
+            .then(result => {
+                const data = JSON.parse(result);
+                const breeds = data.message;
+
+                console.log(breeds);
+
+                const listOfBreeds = Object.keys(breeds);
+                const randomBreed = listOfBreeds[Math.floor(Math.random() * listOfBreeds.length)];
+
+                return randomBreed;
+            })
+            .then(randomBreed => {
+                return fetch(`https://dog.ceo/api/breed/${randomBreed}/images`)
+            })
+            .then(response => response.json())
+            .then(imagesResult => {
+                const images = imagesResult.message;
+                console.log(images);
+            });
+
+
+
+    </script>
+</body>
+
+</html>
