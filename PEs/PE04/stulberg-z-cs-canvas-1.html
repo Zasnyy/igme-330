@@ -31,7 +31,22 @@
 			ctx.fillStyle = "red"; 
 			
 			// D - fill a rectangle with the current fill color
-			ctx.fillRect(20,20,600,440); 
+			ctx.fillRect(20,20,600,440);
+            
+            // E - add a 400x300 rectangle at (120, 120)
+            ctx.fillStyle = "#00ff00";
+            ctx.fillRect(120, 120, 400, 300);
+
+            // F - color the path of the inner rectangle
+            ctx.strokeStyle = "#00F";
+            ctx.lineWidth = 3;
+            ctx.strokeRect(120, 120, 400, 300);
+
+            // G - add two more rectangles using fillRect and strokeRect
+            ctx.fillStyle = "yellow";
+            ctx.fillRect(220, 220, 200, 160);
+            ctx.strokeStyle = "rgba(127, 0, 255, 1)";
+            ctx.strokeRect(220, 220, 200, 160);
 		}
 	</script>
 </head>
