@@ -39,16 +39,17 @@
             update();
         }
 
-        function update() {
+        let lastUpdateTime = 0;
+        function update(ts) {
             requestAnimationFrame(update);
-            let choice = getRandomInt(1, 3);
-            if (choice === 1) {
-                drawRandomRect(ctx);
-            } else if (choice === 2) {
-                drawRandomLine(ctx);
-            } else {
-                drawRandomCircle(ctx); 
+            if (ts - lastUpdateTime < 100) {
+                return;
             }
+            lastUpdateTime = ts;
+            
+            drawRandomRect(ctx);
+            drawRandomLine(ctx);
+            drawRandomCircle(ctx); 
         }
 
         function drawRandomRect(ctx) {
