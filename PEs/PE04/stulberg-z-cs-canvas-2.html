@@ -56,9 +56,19 @@
 			ctx.closePath();
 			ctx.stroke();
 
+			// another line
+			ctx.strokeStyle = "blue";	
+			ctx.lineWidth = 20;
+			ctx.beginPath();
+			ctx.moveTo(20, 240);
+			ctx.lineTo(620, 240);
+			ctx.closePath();
+			ctx.stroke();
+
 			// circle
 			ctx.fillStyle = "yellow";
 			ctx.strokeStyle = "rgba(127, 0, 255, 1)";
+			ctx.lineWidth = 3;
 			ctx.beginPath();
 			ctx.arc(320, 240, 50, 0, Math.PI * 2, false);
 			ctx.closePath();
@@ -70,6 +80,22 @@
 			ctx.strokeStyle = "#324ab2";
 			ctx.beginPath();
 			ctx.arc(320, 240, 20, 0, Math.PI, false);
+			ctx.closePath();
+			ctx.fill();
+			ctx.stroke();
+
+			// eyes (small circles)
+			ctx.fillStyle = "green";
+			ctx.strokeStyle = "red";
+			ctx.lineWidth = 2;
+			ctx.beginPath();
+			ctx.arc(305, 220, 7, 0, Math.PI * 2, false);
+			ctx.closePath();
+			ctx.fill();
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.arc(335, 220, 7, 0, Math.PI * 2, false);
 			ctx.closePath();
 			ctx.fill();
 			ctx.stroke();
