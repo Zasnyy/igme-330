@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="canvas" width="640" height="480"></canvas>
+
+    <script>
+        const canvas = document.querySelector('#canvas');
+        const ctx = canvas.getContext('2d');
+
+        const width = canvas.width;
+        const height = canvas.height;
+
+        const rect = ({
+            x, y, 
+            width: w, height: h, 
+            style: {
+                fill: fillStyle, 
+                stroke: strokeStyle, 
+                strokeWidth: lineWidth
+            }
+        }) => {
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(x, y, w, h);
+
+            ctx.fillStyle = fillStyle;
+            ctx.strokeStyle = strokeStyle;
+            ctx.lineWidth = lineWidth;
+
+            ctx.fill();
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        // for (let i = 0; i < 1000; i++) {
+        //     const params = {
+        //         x: Math.random() * width, 
+        //         y: Math.random() * height,
+        //         width: 10, 
+        //         height: 10,
+        //         style: {
+        //             fill: 'red', 
+        //             stroke: 'green',
+        //             strokeWidth: 1
+        //         }
+        //     }
+        //     rect(params);
+        // }
+
+
+        const squareSize = 100;
+        const params = {
+            x: width / 2 - squareSize / 2, 
+            y: height / 2 - squareSize / 2,
+            width: squareSize, 
+            height: squareSize,
+            style: {
+                fill: 'red', 
+                stroke: 'green',
+                strokeWidth: 10
+            }
+        }
+
+        let angle = 45;
+        let lastTs = 0;
+        const draw = (ts) => {
+            let frameTime = ts - lastTs;
+            let frameMult = frameTime / 1000;
+            
+            angle += 10 * frameMult;
+
+            ctx.save();
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.translate(width / 2, height / 2);
+            ctx.rotate(angle * Math.PI / 180);
+            ctx.translate(-width / 2, -height / 2);
+            
+            rect(params);
+            ctx.restore();
+
+            lastTs = ts;
+            requestAnimationFrame(draw);
+        }
+
+        draw(lastTs);
+
+    </script>
+
+</body>
+
+</html>
