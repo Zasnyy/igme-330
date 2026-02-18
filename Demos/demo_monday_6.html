@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Monday: Save/Restore & Animation</title>
+  <style>
+    canvas { border: 2px solid #333; display: block; margin: 10px 0; }
+    button { padding: 8px 16px; margin-right: 8px; }
+  </style>
+</head>
+<body>
+  <h2>Save/Restore & Animation Loops</h2>
+  <canvas id="canvas" width="640" height="480"></canvas>
+  <button id="play">Play</button>
+  <button id="pause">Pause</button>
+
+  <script>
+    const canvas = document.querySelector("#canvas");
+    const ctx = canvas.getContext("2d");
+    let paused = true;
+
+    // --- Helper functions ---
+    const getRandomInt = (min, max) =>
+      Math.floor(Math.random() * (max - min)) + min;
+
+    const getRandomColor = () =>
+      `hsl(${getRandomInt(0, 360)}, 70%, 50%)`;
+
+    // save/restore pattern
+    const drawRectangle = (x, y, w, h, fillStyle = "red", strokeStyle = "black", lineWidth = 1) => {
+      ctx.save();  // save current state
+      ctx.fillStyle = fillStyle;
+      ctx.strokeStyle = strokeStyle;
+      ctx.lineWidth = lineWidth;
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeRect(x, y, w, h);
+      ctx.restore();  // restore previous state
+    };
+
+    const drawCircle = (x, y, radius, fillStyle = "blue") => {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = fillStyle;
+      ctx.fill();
+      ctx.closePath();
+      ctx.restore();
+    };
+
+    // --- Animation loop ---
+    const update = () => {
+      // draw random shapes
+      const x = getRandomInt(20, 620);
+      const y = getRandomInt(20, 460);
+      const size = getRandomInt(10, 40);
+
+      if (Math.random() > 0.5) {
+        drawCircle(x, y, size, getRandomColor());
+      } else {
+        drawRectangle(x, y, size, size, getRandomColor());
+      }
+
+      // request next frame if not paused
+      if (!paused) {
+        requestAnimationFrame(update);
+      }
+    };
+
+    // --- Controls ---
+    document.querySelector("#play").addEventListener("click", () => {
+      if (paused) {  // prevent multiple loops!
+        paused = false;
+        update();
+      }
+    });
+
+    document.querySelector("#pause").addEventListener("click", () => {
+      paused = true;
+    });
+
+    // --- Key concepts to demo ---
+    // 1. save() pushes state, restore() pops state
+    // 2. Use in helpers to isolate changes
+    // 3. requestAnimationFrame() loops
+    // 4. Check paused flag before starting loop (bug hunt!)
+  </script>
+</body>
+</html>
