@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas width="600" height="430"></canvas>
+
+    <script>
+        const canvas = document.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const width = canvas.width;
+        const height = canvas.height;
+
+        const rect = ({
+            x, y,
+            width, height,
+            style: {
+                fill: fillStyle,
+                stroke: strokeStyle,
+                strokeWidth: lineWidth
+            }
+        }) => {
+            ctx.save();
+            ctx.beginPath();
+
+            ctx.rect(x, y, width, height);
+
+            ctx.fillStyle = fillStyle;
+            ctx.strokeStyle = strokeStyle;
+            ctx.lineWidth = lineWidth;
+            ctx.fill();
+            ctx.stroke();
+            ctx.restore();
+        };
+
+        const theRects = [
+            { 
+                pos: [0, 0], 
+                width: 50, 
+                height: 50, 
+                color: 'black' 
+            },
+            { pos: [100, 100], width: 100, height: 50, rotation: 0, color: 'blue' },
+            { pos: [300, 100], height: 500, width: 10, rotation: 0, color: 'ochre' }
+        ];
+
+        let mousePos = [0, 0];
+        canvas.addEventListener('mousemove', (evt) => {
+            mousePos = [evt.offsetX, evt.offsetY];
+        });
+
+        let isWPressed = false;
+        let isAPressed = false;
+        let isSPressed = false;
+        let isDPressed = false;
+        let isSpacePressed = false;
+        document.addEventListener('keydown', (evt) => {
+            const key = evt.key;
+            if (key === 'w') isWPressed = true;
+            if (key === 'a') isAPressed = true;
+            if (key === 's') isSPressed = true;
+            if (key === 'd') isDPressed = true;
+            if (key === ' ') isSpacePressed = true;
+        });
+        document.addEventListener('keyup', (evt) => {
+            const key = evt.key;
+            if (key === 'w') isWPressed = false;
+            if (key === 'a') isAPressed = false;
+            if (key === 's') isSPressed = false;
+            if (key === 'd') isDPressed = false;
+            if (key === ' ') isSpacePressed = false;
+        });
+
+        const update = (deltaT, state) => {
+            const {avatarMovement, whichRect} = state;
+
+            theRects[whichRect].pos[0] += avatarMovement[0];
+            theRects[whichRect].pos[1] += avatarMovement[1];
+        };
+
+        const draw = () => {
+            ctx.save();
+
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < theRects.length; i++) {
+                const thisRect = theRects[i];
+
+                rect({
+                    x: thisRect.pos[0],
+                    y: thisRect.pos[1],
+                    width: thisRect.width,
+                    height: thisRect.height,
+                    style: {
+                        fill: thisRect.color,
+                        stroke: "black",
+                        strokeWidth: 3
+                    }
+                });
+            }
+
+            ctx.restore();
+        };
+
+        const state = {
+                avatarMovement: [0, 0],
+                whichRect: 0
+            };
+
+        let lastTs = 0;
+        const step = (ts) => {
+            let deltaT = (ts - lastTs) / 1000;
+            lastTs = ts;
+            
+            state.avatarMovement = [0, 0];
+            if (isWPressed) state.avatarMovement[1] -= 1;
+            if (isSPressed) state.avatarMovement[1] += 1;
+            if (isAPressed) state.avatarMovement[0] -= 1;
+            if (isDPressed) state.avatarMovement[0] += 1;
+
+            if (isSpacePressed) state.whichRect = (state.whichRect + 1) % theRects.length;
+
+            update(deltaT, state);
+            draw();
+
+            console.log(isWPressed, isAPressed, isSPressed, isDPressed);
+
+            requestAnimationFrame(step);
+        };
+
+        requestAnimationFrame(step);
+
+    </script>
+</body>
+
+</html>
