@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 
-type NumberBox = {
+type JokeObject = {
   value: number;
 }
+
+const STORAGE_KEY = 'igme-330-jokes_latest-joke';
 
 const wait = (ms: number) => {
   return new Promise(resolve => {
@@ -15,41 +17,33 @@ const App = () => {
   console.log('App rendered');
 
   const [theJoke, setJoke] = useState<string | null>(
-    localStorage.getItem('igme-330-jokes_latest-joke')
+    localStorage.getItem(STORAGE_KEY)
   );
   const [isLoading, setIsLoading] = useState(false);
-  const [numTimesPressed, setNumTimesPressed] = useState<NumberBox>({
+  const [numTimesPressed, setNumTimesPressed] = useState<JokeObject>({
     value: 0
   });
 
-  const requestNewJoke = () => {
+  const requestNewJoke = async () => {
     setIsLoading(true);
+    await wait(1000);
+    const response = await fetch('https://icanhazdadjoke.com/', {
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+    const data = await response.json();
+    const { joke } = data;
 
-    return wait(1000)
-      .then(() => {
-        return fetch('https://icanhazdadjoke.com/', {
-          headers: {
-            'Accept': 'application/json'
-          }
-        })
-      })
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        const {joke} = data;
-        
-        setIsLoading(false);
-        setJoke(joke);
-
-        localStorage.setItem('igme-330-jokes_latest-joke', joke);
-      })
+    setJoke(joke);
+    localStorage.setItem(STORAGE_KEY, joke);
+    setIsLoading(false);
   }
 
   useEffect(() => {
-    if (theJoke === null) {
-      requestNewJoke();
-    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (theJoke === null) requestNewJoke();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -60,6 +54,11 @@ const App = () => {
     console.log('Component rendered');
   });
 
+  const handleClick = () => {
+    setNumTimesPressed({ value: numTimesPressed.value + 1 });
+    requestNewJoke();
+  };
+
   return (
     <div className='app'>
       <h1>Dad Joke Generator</h1>
@@ -69,14 +68,7 @@ const App = () => {
         <p>{isLoading ? 'Loading joke...' : theJoke}</p>
       </div>
 
-      <button disabled={isLoading} onClick={() => {
-        const newContainer = {
-          value: numTimesPressed.value + 1
-        }
-
-        setNumTimesPressed(newContainer);
-        requestNewJoke();
-      }}>Get {numTimesPressed.value + 1} Joke</button>
+      <button disabled={isLoading} onClick={handleClick}>Get {numTimesPressed.value + 1} Joke</button>
     </div>
   )
 }
